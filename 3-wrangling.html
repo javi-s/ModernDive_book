@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Data Wrangling | Statistical Inference via Data Science</title>
   <meta name="description" content="An open-source and fully-reproducible electronic textbook for teaching statistical inference using tidyverse data science tools." />
-  <meta name="generator" content="bookdown 0.18.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18.3 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Data Wrangling | Statistical Inference via Data Science" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Chester Ismay and Albert Y. Kim   Foreword by Kelly S. McConville" />
 
 
-<meta name="date" content="2020-04-24" />
+<meta name="date" content="2020-05-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1180,7 +1180,7 @@ FIGURE 3.6: Histogram of gain variable.
 <h2><span class="header-section-number">3.7</span> <code>join</code> data frames</h2>
 <p>Another common data transformation task is “joining” or “merging” two different datasets. For example, in the <code>flights</code> data frame, the variable <code>carrier</code> lists the carrier code for the different flights. While the corresponding airline names for <code>&quot;UA&quot;</code> and <code>&quot;AA&quot;</code> might be somewhat easy to guess (United and American Airlines), what airlines have codes <code>&quot;VX&quot;</code>, <code>&quot;HA&quot;</code>, and <code>&quot;B6&quot;</code>? This information is provided in a separate data frame <code>airlines</code>.</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">View</span>(airlines)</a></code></pre></div>
-<p>We see that in <code>airports</code>, <code>carrier</code> is the carrier code, while <code>name</code> is the full name of the airline company. Using this table, we can see that <code>&quot;VX&quot;</code>, <code>&quot;HA&quot;</code>, and <code>&quot;B6&quot;</code> correspond to Virgin America, Hawaiian Airlines, and JetBlue, respectively. However, wouldn’t it be nice to have all this information in a single data frame instead of two separate data frames? We can do this by “joining” the <code>flights</code> and <code>airlines</code> data frames.</p>
+<p>We see that in <code>airlines</code>, <code>carrier</code> is the carrier code, while <code>name</code> is the full name of the airline company. Using this table, we can see that <code>&quot;VX&quot;</code>, <code>&quot;HA&quot;</code>, and <code>&quot;B6&quot;</code> correspond to Virgin America, Hawaiian Airlines, and JetBlue, respectively. However, wouldn’t it be nice to have all this information in a single data frame instead of two separate data frames? We can do this by “joining” the <code>flights</code> and <code>airlines</code> data frames.</p>
 <p>Note that the values in the variable <code>carrier</code> in the <code>flights</code> data frame match the values in the variable <code>carrier</code> in the <code>airlines</code> data frame. In this case, we can use the variable <code>carrier</code> as a  <em>key variable</em> to match the rows of the two data frames. Key variables are almost always <em>identification variables</em> that uniquely identify the observational units as we saw in Subsection <a href="1-getting-started.html#identification-vs-measurement-variables">1.4.4</a>. This ensures that rows in both data frames are appropriately matched during the join. Hadley and Garrett <span class="citation">(Grolemund and Wickham <a href="#ref-rds2016">2017</a>)</span> created the diagram shown in Figure <a href="3-wrangling.html#fig:reldiagram">3.7</a> to help us understand how the different data frames in the <code>nycflights13</code> package are linked by various key variables:</p>
 
 <div class="figure" style="text-align: center"><span id="fig:reldiagram"></span>

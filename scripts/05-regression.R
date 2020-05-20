@@ -1,5 +1,5 @@
 ## ----echo=FALSE, results="asis"-----------------------------------------------
-if (knitr::is_latex_output()) {
+if(knitr::is_latex_output()){
   cat("# (PART) (ref:moderndivepart) {-}")
 } else {
   cat("# (PART) Data Modeling with moderndive {-} ")
@@ -17,9 +17,9 @@ if (knitr::is_latex_output()) {
 ## ---- echo=FALSE, message=FALSE, warning=FALSE--------------------------------
 library(tidyverse)
 library(moderndive)
-# DO NOT load the skimr package as a whole as it will break all kable() code for
+# DO NOT load the skimr package as a whole as it will break all kable() code for 
 # the remaining chapters in the book.
-# Furthermore all skimr::skim() output in this Chapter has been hard coded.
+# Furthermore all skimr::skim() output in this Chapter has been hard coded. 
 # library(skimr)
 library(gapminder)
 
@@ -54,68 +54,61 @@ evals_ch5 %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ----eval=TRUE----------------------------------------------------------------
 evals_ch5 %>%
-  summarize(
-    mean_bty_avg = mean(bty_avg), mean_score = mean(score),
-    median_bty_avg = median(bty_avg), median_score = median(score)
-  )
+  summarize(mean_bty_avg = mean(bty_avg), mean_score = mean(score),
+            median_bty_avg = median(bty_avg), median_score = median(score))
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-## evals_ch5 %>%
-##   select(score, bty_avg) %>%
-##   skim()
+## evals_ch5 %>% select(score, bty_avg) %>% skim()
 
 
 ## ----correlation1, echo=FALSE, fig.cap="Nine different correlation coefficients.", fig.height=2.6----
 correlation <- c(-0.9999, -0.9, -0.75, -0.3, 0, 0.3, 0.75, 0.9, 0.9999)
 n_sim <- 100
 values <- NULL
-for (i in seq_along(correlation)) {
+for(i in seq_along(correlation)){
   rho <- correlation[i]
   sigma <- matrix(c(5, rho * sqrt(50), rho * sqrt(50), 10), 2, 2)
   sim <- rmvnorm(
     n = n_sim,
-    mean = c(20, 40),
+    mean = c(20,40),
     sigma = sigma
-  ) %>%
-    as.data.frame() %>%
+    ) %>%
+    as.data.frame() %>% 
     as_tibble() %>%
-    mutate(correlation = round(rho, 2))
+    mutate(correlation = round(rho,2))
 
   values <- bind_rows(values, sim)
 }
 
 corr_plot <- ggplot(data = values, mapping = aes(V1, V2)) +
   geom_point() +
-  facet_wrap(~correlation, ncol = 3) +
+  facet_wrap(~ correlation, ncol = 3) +
   labs(x = "x", y = "y") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
-    axis.ticks = element_blank()
-  )
+    axis.ticks = element_blank())
 
-if (knitr::is_latex_output()) {
+if(knitr::is_latex_output()){
   corr_plot +
-    theme(
-      strip.text = element_text(colour = "black"),
-      strip.background = element_rect(fill = "grey93")
-    )
+  theme(
+    strip.text = element_text(colour = 'black'),
+    strip.background = element_rect(fill = "grey93")
+  )
 } else {
   corr_plot
 }
 
 
 ## -----------------------------------------------------------------------------
-evals_ch5 %>%
+evals_ch5 %>% 
   get_correlation(formula = score ~ bty_avg)
 
 
@@ -126,19 +119,17 @@ evals_ch5 %>%
 
 ## ----echo=FALSE---------------------------------------------------------------
 cor_ch5 <- evals_ch5 %>%
-  summarize(correlation = cor(score, bty_avg)) %>%
-  round(3) %>%
+  summarize(correlation = cor(score, bty_avg)) %>% 
+  round(3) %>% 
   pull()
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
 ##   geom_point() +
-##   labs(
-##     x = "Beauty Score",
-##     y = "Teaching Score",
-##     title = "Scatterplot of relationship of teaching and beauty scores"
-##   )
+##   labs(x = "Beauty Score",
+##        y = "Teaching Score",
+##        title = "Scatterplot of relationship of teaching and beauty scores")
 
 
 ## ----numxplot1, warning=FALSE, echo=FALSE, fig.cap="Instructor evaluation scores at UT Austin.", fig.height=4.5----
@@ -148,43 +139,35 @@ margin_y <- 0.075
 box <- tibble(
   x = c(7.83, 8.17, 8.17, 7.83, 7.83) + c(-1, 1, 1, -1, -1) * margin_x,
   y = c(4.6, 4.6, 5, 5, 4.6) + c(-1, -1, 1, 1, -1) * margin_y
-)
+  )
 
 ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
   geom_point() +
-  labs(
-    x = "Beauty Score",
-    y = "Teaching Score",
-    title = "Scatterplot of relationship of teaching and beauty scores"
-  ) +
-  geom_path(data = box, aes(x = x, y = y), col = "orange", size = 1)
+  labs(x = "Beauty Score", 
+       y = "Teaching Score",
+       title = "Scatterplot of relationship of teaching and beauty scores") +
+  geom_path(data = box, aes(x=x, y=y), col = "orange", size = 1)
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
 ##   geom_jitter() +
-##   labs(
-##     x = "Beauty Score", y = "Teaching Score",
-##     title = "Scatterplot of relationship of teaching and beauty scores"
-##   )
+##   labs(x = "Beauty Score", y = "Teaching Score",
+##        title = "Scatterplot of relationship of teaching and beauty scores")
 
 ## ----numxplot2, warning=FALSE, echo=FALSE, fig.cap="Instructor evaluation scores at UT Austin.", fig.height=4.2----
 ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
   geom_jitter() +
-  labs(
-    x = "Beauty Score", y = "Teaching Score",
-    title = "(Jittered) Scatterplot of relationship of teaching and beauty scores"
-  ) +
+  labs(x = "Beauty Score", y = "Teaching Score",
+       title = "(Jittered) Scatterplot of relationship of teaching and beauty scores") +
   geom_path(data = box, aes(x = x, y = y), col = "orange", size = 1)
 
 
 ## ----numxplot3, warning=FALSE, fig.cap="Regression line."---------------------
 ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
   geom_point() +
-  labs(
-    x = "Beauty Score", y = "Teaching Score",
-    title = "Relationship between teaching and beauty scores"
-  ) +
+  labs(x = "Beauty Score", y = "Teaching Score",
+       title = "Relationship between teaching and beauty scores") +  
   geom_smooth(method = "lm", se = FALSE)
 
 
@@ -212,10 +195,8 @@ get_regression_table(score_model) %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -250,25 +231,19 @@ evals_ch5 %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ----numxplot4, echo=FALSE, warning=FALSE, fig.cap="Example of observed value, fitted value, and residual.", fig.height=2.8----
 best_fit_plot <- ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
   geom_point(color = "grey") +
-  labs(
-    x = "Beauty Score", y = "Teaching Score",
-    title = "Relationship of teaching and beauty scores"
-  ) +
+  labs(x = "Beauty Score", y = "Teaching Score",
+       title = "Relationship of teaching and beauty scores") +
   geom_smooth(method = "lm", se = FALSE) +
   annotate("point", x = x, y = y_hat, col = "red", shape = 15, size = 4) +
-  annotate("segment",
-    x = x, xend = x, y = y, yend = y_hat, color = "blue",
-    arrow = arrow(type = "closed", length = unit(0.04, "npc"))
-  ) +
+  annotate("segment", x = x, xend = x, y = y, yend = y_hat, color = "blue",
+           arrow = arrow(type = "closed", length = unit(0.04, "npc"))) +
   annotate("point", x = x, y = y, col = "red", size = 4)
 best_fit_plot
 
@@ -328,10 +303,8 @@ gapminder2007 %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -343,38 +316,31 @@ gapminder2007 %>%
 ## ----lifeExp2007hist, echo=TRUE, warning=FALSE, fig.cap="Histogram of life expectancy in 2007.", fig.height=5.2----
 ggplot(gapminder2007, aes(x = lifeExp)) +
   geom_histogram(binwidth = 5, color = "white") +
-  labs(
-    x = "Life expectancy", y = "Number of countries",
-    title = "Histogram of distribution of worldwide life expectancies"
-  )
+  labs(x = "Life expectancy", y = "Number of countries",
+       title = "Histogram of distribution of worldwide life expectancies")
 
 
 ## ----eval=FALSE---------------------------------------------------------------
 ## ggplot(gapminder2007, aes(x = lifeExp)) +
 ##   geom_histogram(binwidth = 5, color = "white") +
-##   labs(
-##     x = "Life expectancy",
-##     y = "Number of countries",
-##     title = "Histogram of distribution of worldwide life expectancies"
-##   ) +
-##   facet_wrap(~continent, nrow = 2)
+##   labs(x = "Life expectancy",
+##        y = "Number of countries",
+##        title = "Histogram of distribution of worldwide life expectancies") +
+##   facet_wrap(~ continent, nrow = 2)
 
 
 ## ----catxplot0b, echo=FALSE, warning=FALSE, fig.cap="Life expectancy in 2007.", fig.height=4.3----
 faceted_life_exp <- ggplot(gapminder2007, aes(x = lifeExp)) +
   geom_histogram(binwidth = 5, color = "white") +
-  labs(
-    x = "Life expectancy", y = "Number of countries",
-    title = "Histogram of distribution of worldwide life expectancies"
-  ) +
-  facet_wrap(~continent, nrow = 2)
+  labs(x = "Life expectancy", y = "Number of countries",
+       title = "Histogram of distribution of worldwide life expectancies") +
+  facet_wrap(~ continent, nrow = 2)
 
 # Make the text black and reduce darkness of the grey in the facet labels
-if (knitr::is_latex_output()) {
-  faceted_life_exp +
-    theme(
-      strip.text = element_text(colour = "black"),
-      strip.background = element_rect(fill = "grey93")
+if(knitr::is_latex_output()) {
+  faceted_life_exp + 
+    theme(strip.text = element_text(colour = 'black'),
+          strip.background = element_rect(fill = "grey93")
     )
 } else {
   faceted_life_exp
@@ -384,19 +350,15 @@ if (knitr::is_latex_output()) {
 ## ----catxplot1, warning=FALSE, fig.cap="Life expectancy in 2007.", fig.height=3.4----
 ggplot(gapminder2007, aes(x = continent, y = lifeExp)) +
   geom_boxplot() +
-  labs(
-    x = "Continent", y = "Life expectancy",
-    title = "Life expectancy by continent"
-  )
+  labs(x = "Continent", y = "Life expectancy",
+       title = "Life expectancy by continent")
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
 lifeExp_by_continent <- gapminder2007 %>%
   group_by(continent) %>%
-  summarize(
-    median = median(lifeExp),
-    mean = mean(lifeExp)
-  )
+  summarize(median = median(lifeExp), 
+            mean = mean(lifeExp))
 
 ## ----catxplot0, echo=FALSE----------------------------------------------------
 lifeExp_by_continent %>%
@@ -419,10 +381,8 @@ gapminder2007 %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 
@@ -444,10 +404,8 @@ get_regression_table(lifeExp_model) %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 
@@ -468,10 +426,8 @@ regression_points %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 
@@ -494,10 +450,8 @@ best_fit_plot <- ggplot(evals_ch5, aes(x = bty_avg, y = score)) +
   geom_smooth(method = "lm", se = FALSE) +
   annotate("point", x = x, y = y, col = "red", size = 2) +
   annotate("point", x = x, y = y_hat, col = "red", shape = 15, size = 2) +
-  annotate("segment",
-    x = x, xend = x, y = y, yend = y_hat, color = "blue",
-    arrow = arrow(type = "closed", length = unit(0.02, "npc"))
-  )
+  annotate("segment", x = x, xend = x, y = y, yend = y_hat, color = "blue",
+           arrow = arrow(type = "closed", length = unit(0.02, "npc")))
 p1 <- best_fit_plot + labs(title = "First instructor's residual")
 
 # Second residual
@@ -512,10 +466,8 @@ resid <- target_point$residual
 best_fit_plot <- best_fit_plot +
   annotate("point", x = x, y = y, col = "red", size = 2) +
   annotate("point", x = x, y = y_hat, col = "red", shape = 15, size = 2) +
-  annotate("segment",
-    x = x, xend = x, y = y, yend = y_hat, color = "blue",
-    arrow = arrow(type = "closed", length = unit(0.02, "npc"))
-  )
+  annotate("segment", x = x, xend = x, y = y, yend = y_hat, color = "blue",
+           arrow = arrow(type = "closed", length = unit(0.02, "npc")))
 p2 <- best_fit_plot + labs(title = "Adding second instructor's residual")
 
 # Third residual
@@ -531,11 +483,9 @@ resid <- target_point$residual
 best_fit_plot <- best_fit_plot +
   annotate("point", x = x, y = y, col = "red", size = 2) +
   annotate("point", x = x, y = y_hat, col = "red", shape = 15, size = 2) +
-  annotate("segment",
-    x = x, xend = x, y = y, yend = y_hat,
-    color = "blue",
-    arrow = arrow(type = "closed", length = unit(0.02, "npc"))
-  )
+  annotate("segment", x = x, xend = x, y = y, yend = y_hat,
+           color = "blue",
+           arrow = arrow(type = "closed", length = unit(0.02, "npc")))
 p3 <- best_fit_plot + labs(title = "Adding third instructor's residual")
 
 index <- which(evals_ch5$bty_avg == 6 & evals_ch5$score == 3.8)
@@ -550,10 +500,8 @@ resid <- target_point$residual
 best_fit_plot <- best_fit_plot +
   annotate("point", x = x, y = y, col = "red", size = 2) +
   annotate("point", x = x, y = y_hat, col = "red", shape = 15, size = 2) +
-  annotate("segment",
-    x = x, xend = x, y = y, yend = y_hat, color = "blue",
-    arrow = arrow(type = "closed", length = unit(0.02, "npc"))
-  )
+  annotate("segment", x = x, xend = x, y = y, yend = y_hat, color = "blue",
+           arrow = arrow(type = "closed", length = unit(0.02, "npc")))
 p4 <- best_fit_plot + labs(title = "Adding fourth instructor's residual")
 
 p1 + p2 + p3 + p4 + plot_layout(nrow = 2)
@@ -561,9 +509,8 @@ p1 + p2 + p3 + p4 + plot_layout(nrow = 2)
 
 ## -----------------------------------------------------------------------------
 # Fit regression model:
-score_model <- lm(score ~ bty_avg,
-  data = evals_ch5
-)
+score_model <- lm(score ~ bty_avg, 
+                  data = evals_ch5)
 
 # Get regression points:
 regression_points <- get_regression_points(score_model)
@@ -585,10 +532,8 @@ example <- tibble(
 ggplot(example, aes(x = x, y = y)) +
   geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
   geom_hline(yintercept = 2.5, col = "red", linetype = "dotted", size = 1) +
-  geom_abline(
-    intercept = 2, slope = -1, col = "forestgreen",
-    linetype = "dashed", size = 1
-  ) +
+  geom_abline(intercept = 2, slope = -1, col = "forestgreen", 
+              linetype = "dashed", size = 1) +
   geom_point(size = 4)
 
 
@@ -610,10 +555,8 @@ get_regression_table(score_model) %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -632,20 +575,16 @@ score_model %>%
   tidy(conf.int = TRUE) %>%
   mutate_if(is.numeric, round, digits = 3) %>%
   clean_names() %>%
-  rename(
-    lower_ci = conf_low,
-    upper_ci = conf_high
-  ) %>%
+  rename(lower_ci = conf_low,
+         upper_ci = conf_high) %>%
   knitr::kable(
     digits = 3,
     caption = "Regression table using tidy() from broom package",
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -672,14 +611,12 @@ score_model %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(
-    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-    latex_options = c("hold_position")
-  )
+  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                latex_options = c("hold_position"))
 
 
 ## ----echo=FALSE, results="asis"-----------------------------------------------
-if (knitr::is_latex_output()) {
+if(knitr::is_latex_output()){
   cat("Solutions to all *Learning checks* can be found online in [Appendix D](https://moderndive.com/D-appendixD.html).")
-}
+} 
 

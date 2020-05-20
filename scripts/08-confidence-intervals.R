@@ -317,7 +317,7 @@ if(!file.exists("rds/pennies_sample_generate.rds")){
 pennies_sample_generate
 
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 ## # infer workflow:                   # Original workflow:
 ## pennies_sample %>%                  pennies_sample %>%
 ##   specify(response = year) %>%        rep_sample_n(size = 50, replace = TRUE,

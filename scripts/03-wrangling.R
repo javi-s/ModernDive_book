@@ -60,7 +60,7 @@ library(nycflights13)
 ## ---- eval=FALSE--------------------------------------------------------------
 ## many_airports <- flights %>%
 ##   filter(dest == "SEA" | dest == "SFO" | dest == "PDX" |
-##     dest == "BTV" | dest == "BDL")
+##          dest == "BTV" | dest == "BDL")
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -78,17 +78,15 @@ library(nycflights13)
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-summary_temp <- weather %>%
+summary_temp <- weather %>% 
   summarize(mean = mean(temp), std_dev = sd(temp))
 summary_temp
 
 
 ## -----------------------------------------------------------------------------
-summary_temp <- weather %>%
-  summarize(
-    mean = mean(temp, na.rm = TRUE),
-    std_dev = sd(temp, na.rm = TRUE)
-  )
+summary_temp <- weather %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
 summary_temp
 
 
@@ -105,12 +103,10 @@ summary_temp
 
 
 ## -----------------------------------------------------------------------------
-summary_monthly_temp <- weather %>%
-  group_by(month) %>%
-  summarize(
-    mean = mean(temp, na.rm = TRUE),
-    std_dev = sd(temp, na.rm = TRUE)
-  )
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
 summary_monthly_temp
 
 
@@ -119,40 +115,40 @@ diamonds
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-diamonds %>%
+diamonds %>% 
   group_by(cut)
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-diamonds %>%
-  group_by(cut) %>%
+diamonds %>% 
+  group_by(cut) %>% 
   summarize(avg_price = mean(price))
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-diamonds %>%
-  group_by(cut) %>%
+diamonds %>% 
+  group_by(cut) %>% 
   ungroup()
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-by_origin <- flights %>%
-  group_by(origin) %>%
+by_origin <- flights %>% 
+  group_by(origin) %>% 
   summarize(count = n())
 by_origin
 
 
 ## -----------------------------------------------------------------------------
-by_origin_monthly <- flights %>%
-  group_by(origin, month) %>%
+by_origin_monthly <- flights %>% 
+  group_by(origin, month) %>% 
   summarize(count = n())
 by_origin_monthly
 
 
 ## -----------------------------------------------------------------------------
-by_origin_monthly_incorrect <- flights %>%
-  group_by(origin) %>%
-  group_by(month) %>%
+by_origin_monthly_incorrect <- flights %>% 
+  group_by(origin) %>% 
+  group_by(month) %>% 
   summarize(count = n())
 by_origin_monthly_incorrect
 
@@ -167,37 +163,35 @@ by_origin_monthly_incorrect
 
 
 ## ---- eval=TRUE---------------------------------------------------------------
-weather <- weather %>%
+weather <- weather %>% 
   mutate(temp_in_C = (temp - 32) / 1.8)
 
 
 ## -----------------------------------------------------------------------------
-summary_monthly_temp <- weather %>%
-  group_by(month) %>%
-  summarize(
-    mean_temp_in_F = mean(temp, na.rm = TRUE),
-    mean_temp_in_C = mean(temp_in_C, na.rm = TRUE)
-  )
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  summarize(mean_temp_in_F = mean(temp, na.rm = TRUE), 
+            mean_temp_in_C = mean(temp_in_C, na.rm = TRUE))
 summary_monthly_temp
 
 
 ## -----------------------------------------------------------------------------
-flights <- flights %>%
+flights <- flights %>% 
   mutate(gain = dep_delay - arr_delay)
 
 
 ## ----first-five-flights, echo=FALSE-------------------------------------------
-flights %>%
-  select(dep_delay, arr_delay, gain) %>%
-  slice(1:5) %>%
+flights %>% 
+  select(dep_delay, arr_delay, gain) %>% 
+  slice(1:5) %>% 
   kable(
     caption = "First five rows of departure/arrival delay and gain variables"
-  ) %>%
+    ) %>% 
   kable_styling(position = "center", latex_options = "hold_position")
 
 
 ## -----------------------------------------------------------------------------
-gain_summary <- flights %>%
+gain_summary <- flights %>% 
   summarize(
     min = min(gain, na.rm = TRUE),
     q1 = quantile(gain, 0.25, na.rm = TRUE),
@@ -217,7 +211,7 @@ ggplot(data = flights, mapping = aes(x = gain)) +
 
 
 ## -----------------------------------------------------------------------------
-flights <- flights %>%
+flights <- flights %>% 
   mutate(
     gain = dep_delay - arr_delay,
     hours = air_time / 60,
@@ -230,19 +224,19 @@ flights <- flights %>%
 
 
 ## ---- eval--------------------------------------------------------------------
-freq_dest <- flights %>%
-  group_by(dest) %>%
+freq_dest <- flights %>% 
+  group_by(dest) %>% 
   summarize(num_flights = n())
 freq_dest
 
 
 ## -----------------------------------------------------------------------------
-freq_dest %>%
+freq_dest %>% 
   arrange(num_flights)
 
 
 ## -----------------------------------------------------------------------------
-freq_dest %>%
+freq_dest %>% 
   arrange(desc(num_flights))
 
 
@@ -350,7 +344,7 @@ named_dests
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
-## named_dests %>%
+## named_dests  %>%
 ##   top_n(n = 10, wt = num_flights) %>%
 ##   arrange(desc(num_flights))
 
@@ -363,38 +357,36 @@ named_dests
 # The following Google Doc is published to CSV and loaded using read_csv():
 # https://docs.google.com/spreadsheets/d/1nRkXfYMQiTj79c08xQPY0zkoJSpde3NC1w6DRhsWCss/edit#gid=0
 
-if (!file.exists("rds/ch4_scenarios.rds")) {
-  ch4_scenarios <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgwl1lugQA6zxzfB6_0hM5vBjXkU7cbUVYYXLcWeaRJ9HmvNXyCjzJCgiGW8HCe1kvjLCGYHf-BvYL/pub?gid=0&single=true&output=csv" %>%
-    read_csv(na = "") %>%
+if(!file.exists("rds/ch4_scenarios.rds")){
+  ch4_scenarios <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgwl1lugQA6zxzfB6_0hM5vBjXkU7cbUVYYXLcWeaRJ9HmvNXyCjzJCgiGW8HCe1kvjLCGYHf-BvYL/pub?gid=0&single=true&output=csv" %>% 
+    read_csv(na = "") %>% 
     select(-X1)
   write_rds(ch4_scenarios, "rds/ch4_scenarios.rds")
 } else {
   ch4_scenarios <- read_rds("rds/ch4_scenarios.rds")
 }
 
-if (knitr:::is_latex_output()) {
-  ch4_scenarios %>%
+if(knitr:::is_latex_output()){
+  ch4_scenarios %>% 
     # Weird tick marks show up in PDF:
     mutate(
       Verb = str_replace_all(Verb, "`", ""),
       `Data wrangling operation` = str_replace_all(`Data wrangling operation`, "`", ""),
-    ) %>%
+    ) %>% 
     kable(
-      caption = "Summary of data wrangling verbs",
+      caption = "Summary of data wrangling verbs", 
       booktabs = TRUE,
       linesep = "",
       format = "latex"
-    ) %>%
-    kable_styling(
-      font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-      latex_options = c("hold_position")
-    ) %>%
-    column_spec(1, width = "0.9in") %>%
+    ) %>% 
+    kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+                  latex_options = c("hold_position")) %>%
+    column_spec(1, width = "0.9in") %>% 
     column_spec(2, width = "4in")
 } else {
-  ch4_scenarios %>%
+  ch4_scenarios %>% 
     kable(
-      caption = "Summary of data wrangling verbs",
+      caption = "Summary of data wrangling verbs", 
       booktabs = TRUE,
       format = "html"
     )
@@ -408,15 +400,14 @@ if (knitr:::is_latex_output()) {
 
 
 ## ----echo=FALSE, results="asis"-----------------------------------------------
-if (knitr::is_latex_output()) {
+if(knitr::is_latex_output()){
   cat("Solutions to all *Learning checks* can be found online in [Appendix D](https://moderndive.com/D-appendixD.html).")
-}
+} 
 
 
 
 
 ## ----dplyr-cheatsheet, echo=FALSE, fig.cap="Data Transformation with dplyr cheatsheet."----
-if (knitr::is_html_output()) {
+if(knitr::is_html_output())
   include_graphics("images/cheatsheets/dplyr_cheatsheet-1.png")
-}
 

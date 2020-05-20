@@ -7,9 +7,9 @@
 ## ---- echo=FALSE, message=FALSE, warning=FALSE--------------------------------
 library(tidyverse)
 library(moderndive)
-# DO NOT load the skimr package as a whole as it will break all kable() code for 
+# DO NOT load the skimr package as a whole as it will break all kable() code for
 # the remaining chapters in the book.
-# Furthermore all skimr::skim() output in this Chapter has been hard coded. 
+# Furthermore all skimr::skim() output in this Chapter has been hard coded.
 # library(skimr)
 library(ISLR)
 
@@ -41,17 +41,21 @@ evals_ch6 %>%
     caption = "A random sample of 5 out of the 463 courses at UT Austin",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ---- eval =FALSE-------------------------------------------------------------
-## evals_ch6 %>% select(score, age, gender) %>% skim()
+## evals_ch6 %>%
+##   select(score, age, gender) %>%
+##   skim()
 
 
 ## -----------------------------------------------------------------------------
-evals_ch6 %>% 
+evals_ch6 %>%
   get_correlation(formula = score ~ age)
 
 
@@ -63,13 +67,13 @@ evals_ch6 %>%
 
 
 ## ----numxcatxplot1, echo=FALSE, warning=FALSE, fig.cap="Colored scatterplot of relationship of teaching and beauty scores.", fig.height=3.2----
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   ggplot(evals_ch6, aes(x = age, y = score, color = gender)) +
     geom_point() +
     labs(x = "Age", y = "Teaching Score", color = "Gender") +
     geom_smooth(method = "lm", se = FALSE)
 } else {
-    ggplot(evals_ch6, aes(x = age, y = score, color = gender)) +
+  ggplot(evals_ch6, aes(x = age, y = score, color = gender)) +
     geom_point() +
     labs(x = "Age", y = "Teaching Score", color = "Gender") +
     geom_smooth(method = "lm", se = FALSE) +
@@ -94,8 +98,10 @@ get_regression_table(lifeExp_model) %>%
     booktabs = TRUE,
     linesep = ""
   ) %>%
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -107,15 +113,17 @@ get_regression_table(lifeExp_model) %>%
 
 ## ----regtable-interaction, echo=FALSE-----------------------------------------
 score_model_interaction <- lm(score ~ age * gender, data = evals_ch6)
-get_regression_table(score_model_interaction) %>% 
+get_regression_table(score_model_interaction) %>%
   knitr::kable(
     digits = 3,
-    caption = "Regression table for interaction model", 
+    caption = "Regression table for interaction model",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----interaction-summary, echo=FALSE------------------------------------------
@@ -124,15 +132,17 @@ tibble(
   Gender = c("Female instructors", "Male instructors"),
   Intercept = c(4.883, 4.437),
   `Slope for age` = c(-0.018, -0.004)
-) %>% 
+) %>%
   knitr::kable(
     digits = 4,
-    caption = "Comparison of intercepts and slopes for interaction model", 
+    caption = "Comparison of intercepts and slopes for interaction model",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 options(digits = 3)
 
 
@@ -148,7 +158,7 @@ par_slopes <- ggplot(evals_ch6, aes(x = age, y = score, color = gender)) +
   geom_point() +
   labs(x = "Age", y = "Teaching Score", color = "Gender") +
   geom_parallel_slopes(se = FALSE)
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   par_slopes
 } else {
   par_slopes +
@@ -164,20 +174,22 @@ if(knitr::is_html_output()){
 
 ## ----regtable-parallel-slopes, echo=FALSE-------------------------------------
 score_model_parallel_slopes <- lm(score ~ age + gender, data = evals_ch6)
-get_regression_table(score_model_parallel_slopes) %>% 
+get_regression_table(score_model_parallel_slopes) %>%
   knitr::kable(
     digits = 3,
-    caption = "Regression table for parallel slopes model", 
+    caption = "Regression table for parallel slopes model",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----echo=FALSE---------------------------------------------------------------
-age_coef <- get_regression_table(score_model_parallel_slopes) %>% 
-  filter(term == "age") %>% 
+age_coef <- get_regression_table(score_model_parallel_slopes) %>%
+  filter(term == "age") %>%
   pull(estimate)
 
 
@@ -187,15 +199,17 @@ tibble(
   Gender = c("Female instructors", "Male instructors"),
   Intercept = c(4.484, 4.675),
   `Slope for age` = c(-0.009, -0.009)
-) %>% 
+) %>%
   knitr::kable(
     digits = 4,
-    caption = "Comparison of intercepts and slope for parallel slopes model", 
+    caption = "Comparison of intercepts and slope for parallel slopes model",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 options(digits = 3)
 
 
@@ -212,7 +226,7 @@ parallel_slopes_plot <- ggplot(evals_ch6, aes(x = age, y = score, color = gender
   labs(x = "Age", y = "Teaching Score", title = "Parallel slopes model") +
   theme(axis.title.y = element_blank())
 
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   interaction_plot + parallel_slopes_plot
 } else {
   grey_interaction_plot <- interaction_plot +
@@ -224,8 +238,8 @@ if(knitr::is_html_output()){
 
 
 ## ----fitted-values, echo=FALSE, warning=FALSE, fig.cap="Fitted values for two new professors.", fig.height=4.7----
-newpoints <- evals_ch6 %>% 
-  slice(c(1, 5)) %>% 
+newpoints <- evals_ch6 %>%
+  slice(c(1, 5)) %>%
   get_regression_points(score_model_interaction, newdata = .)
 
 fitted_plot <- ggplot(evals_ch6, aes(x = age, y = score, color = gender), show.legend = FALSE) +
@@ -233,9 +247,9 @@ fitted_plot <- ggplot(evals_ch6, aes(x = age, y = score, color = gender), show.l
   labs(x = "Age", y = "Teaching Score", title = "Interaction model") +
   geom_smooth(method = "lm", se = FALSE) +
   geom_vline(data = newpoints, aes(xintercept = age, col = gender), linetype = "dashed", size = 1, show.legend = FALSE) +
-  geom_point(data = newpoints, aes(x= age, y = score_hat), size = 4, show.legend = FALSE)
+  geom_point(data = newpoints, aes(x = age, y = score_hat), size = 4, show.legend = FALSE)
 
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   fitted_plot
 } else {
   fitted_plot + scale_color_grey()
@@ -252,11 +266,13 @@ regression_points %>%
   slice(1:10) %>%
   knitr::kable(
     digits = 3,
-    caption = "Regression points (First 10 out of 463 courses)"#,
-#    booktabs = TRUE
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+    caption = "Regression points (First 10 out of 463 courses)" # ,
+    #    booktabs = TRUE
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 
@@ -265,9 +281,12 @@ regression_points %>%
 
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(ISLR)
-credit_ch6 <- Credit %>% as_tibble() %>% 
-  select(ID, debt = Balance, credit_limit = Limit, 
-         income = Income, credit_rating = Rating, age = Age)
+credit_ch6 <- Credit %>%
+  as_tibble() %>%
+  select(ID,
+    debt = Balance, credit_limit = Limit,
+    income = Income, credit_rating = Rating, age = Age
+  )
 
 
 ## -----------------------------------------------------------------------------
@@ -285,13 +304,17 @@ credit_ch6 %>%
     caption = "Random sample of 5 credit card holders",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
-## credit_ch6 %>% select(debt, credit_limit, income) %>% skim()
+## credit_ch6 %>%
+##   select(debt, credit_limit, income) %>%
+##   skim()
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -305,45 +328,55 @@ credit_ch6 %>%
 ##   cor()
 
 ## ----model3-correlation, echo=FALSE-------------------------------------------
-credit_ch6 %>% 
-  select(debt, credit_limit, income) %>% 
-  cor() %>% 
+credit_ch6 %>%
+  select(debt, credit_limit, income) %>%
+  cor() %>%
   knitr::kable(
     digits = 3,
-    caption = "Correlation coefficients between credit card debt, credit limit, and income", 
+    caption = "Correlation coefficients between credit card debt, credit limit, and income",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## ggplot(credit_ch6, aes(x = credit_limit, y = debt)) +
 ##   geom_point() +
-##   labs(x = "Credit limit (in $)", y = "Credit card debt (in $)",
-##        title = "Debt and credit limit") +
+##   labs(
+##     x = "Credit limit (in $)", y = "Credit card debt (in $)",
+##     title = "Debt and credit limit"
+##   ) +
 ##   geom_smooth(method = "lm", se = FALSE)
 ## 
 ## ggplot(credit_ch6, aes(x = income, y = debt)) +
 ##   geom_point() +
-##   labs(x = "Income (in $1000)", y = "Credit card debt (in $)",
-##        title = "Debt and income") +
+##   labs(
+##     x = "Income (in $1000)", y = "Credit card debt (in $)",
+##     title = "Debt and income"
+##   ) +
 ##   geom_smooth(method = "lm", se = FALSE)
 
 
 ## ----2numxplot1, echo=FALSE, fig.cap="Relationship between credit card debt and credit limit/income.", fig.height=3.2----
 model3_balance_vs_limit_plot <- ggplot(credit_ch6, aes(x = credit_limit, y = debt)) +
   geom_point() +
-  labs(x = "Credit limit (in $)", y = "Credit card debt (in $)", 
-       title = "Debt and credit limit") +
+  labs(
+    x = "Credit limit (in $)", y = "Credit card debt (in $)",
+    title = "Debt and credit limit"
+  ) +
   geom_smooth(method = "lm", se = FALSE) +
   scale_y_continuous(limits = c(0, 2000))
 
 model3_balance_vs_income_plot <- ggplot(credit_ch6, aes(x = income, y = debt)) +
   geom_point() +
-  labs(x = "Income (in $1000)", y = "Credit card debt (in $)", 
-       title = "Debt and income") +
+  labs(
+    x = "Income (in $1000)", y = "Credit card debt (in $)",
+    title = "Debt and income"
+  ) +
   geom_smooth(method = "lm", se = FALSE) +
   scale_y_continuous(limits = c(0, 2000)) +
   theme(axis.title.y = element_blank())
@@ -366,9 +399,9 @@ model3_balance_vs_limit_plot + model3_balance_vs_income_plot
 ## z_grid <- expand.grid(x_grid, y_grid) %>%
 ##   tbl_df() %>%
 ##   rename(x_grid = Var1, y_grid = Var2) %>%
-##   mutate(z = coef(model_lm)[1] + coef(model_lm)[2]*x_grid + coef(model_lm)[3]*y_grid) %>%
+##   mutate(z = coef(model_lm)[1] + coef(model_lm)[2] * x_grid + coef(model_lm)[3] * y_grid) %>%
 ##   .[["z"]] %>%
-##   matrix(nrow=length(x_grid)) %>%
+##   matrix(nrow = length(x_grid)) %>%
 ##   t()
 ## 
 ## # Plot points
@@ -377,13 +410,15 @@ model3_balance_vs_limit_plot + model3_balance_vs_income_plot
 ##     x = credit_ch6$income,
 ##     y = credit_ch6$credit_limit,
 ##     z = credit_ch6$debt,
-##     hoverinfo = 'text',
-##     text = ~paste("x1 - Income: ",
-##                   credit_ch6$income,
-##                   "</br> x2 - Credit Limit: ",
-##                   credit_ch6$credit_limit,
-##                   "</br> y - Debt: ",
-##                   credit_ch6$debt)
+##     hoverinfo = "text",
+##     text = ~ paste(
+##       "x1 - Income: ",
+##       credit_ch6$income,
+##       "</br> x2 - Credit Limit: ",
+##       credit_ch6$credit_limit,
+##       "</br> y - Debt: ",
+##       credit_ch6$debt
+##     )
 ##   ) %>%
 ##   # Label axes
 ##   layout(
@@ -415,15 +450,17 @@ model3_balance_vs_limit_plot + model3_balance_vs_income_plot
 debt_model <- lm(debt ~ credit_limit + income, data = credit_ch6)
 credit_line <- get_regression_table(debt_model) %>%
   pull(estimate)
-get_regression_table(debt_model) %>% 
+get_regression_table(debt_model) %>%
   knitr::kable(
     digits = 3,
-    caption = "Multiple regression table", 
+    caption = "Multiple regression table",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 
@@ -443,13 +480,15 @@ regression_points %>%
     caption = "Regression points (First 10 credit card holders out of 400)",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----recall-parallel-vs-interaction, fig.height=3.5, echo=FALSE, fig.cap="Previously seen comparison of interaction and parallel slopes models."----
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   interaction_plot + (parallel_slopes_plot + labs(color = "gender\n(recorded\nas binary)"))
 } else {
   grey_interaction_plot <- interaction_plot +
@@ -462,137 +501,164 @@ if(knitr::is_html_output()){
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## # Interaction model
-## ggplot(MA_schools,
-##        aes(x = perc_disadvan, y = average_sat_math, color = size)) +
+## ggplot(
+##   MA_schools,
+##   aes(x = perc_disadvan, y = average_sat_math, color = size)
+## ) +
 ##   geom_point(alpha = 0.25) +
 ##   geom_smooth(method = "lm", se = FALSE) +
-##   labs(x = "Percent economically disadvantaged", y = "Math SAT Score",
-##        color = "School size", title = "Interaction model")
+##   labs(
+##     x = "Percent economically disadvantaged", y = "Math SAT Score",
+##     color = "School size", title = "Interaction model"
+##   )
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## # Parallel slopes model
-## ggplot(MA_schools,
-##        aes(x = perc_disadvan, y = average_sat_math, color = size)) +
+## ggplot(
+##   MA_schools,
+##   aes(x = perc_disadvan, y = average_sat_math, color = size)
+## ) +
 ##   geom_point(alpha = 0.25) +
 ##   geom_parallel_slopes(se = FALSE) +
-##   labs(x = "Percent economically disadvantaged", y = "Math SAT Score",
-##        color = "School size", title = "Parallel slopes model")
+##   labs(
+##     x = "Percent economically disadvantaged", y = "Math SAT Score",
+##     color = "School size", title = "Parallel slopes model"
+##   )
 
 ## ----numxcatx-comparison-2, fig.height=3.4, echo=FALSE, warning=FALSE, fig.cap="Comparison of interaction and parallel slopes models for Massachusetts schools."----
-p1 <- ggplot(MA_schools, 
-             aes(x = perc_disadvan, y = average_sat_math, color = size)) +
+p1 <- ggplot(
+  MA_schools,
+  aes(x = perc_disadvan, y = average_sat_math, color = size)
+) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Percent economically disadvantaged", y = "Math SAT Score", 
-       color = "School size", title = "Interaction model") + 
+  labs(
+    x = "Percent economically disadvantaged", y = "Math SAT Score",
+    color = "School size", title = "Interaction model"
+  ) +
   theme(legend.position = "none")
-p2 <- ggplot(MA_schools, 
-       aes(x = perc_disadvan, y = average_sat_math, color = size)) +
+p2 <- ggplot(
+  MA_schools,
+  aes(x = perc_disadvan, y = average_sat_math, color = size)
+) +
   geom_point(alpha = 0.25) +
-  geom_parallel_slopes(se = FALSE) + 
-  labs(x = "Percent economically disadvantaged", y = "Math SAT Score", 
-       color = "School size", title = "Parallel slopes model")  +
+  geom_parallel_slopes(se = FALSE) +
+  labs(
+    x = "Percent economically disadvantaged", y = "Math SAT Score",
+    color = "School size", title = "Parallel slopes model"
+  ) +
   theme(axis.title.y = element_blank())
 
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   p1 + p2
 } else {
   (p1 + scale_color_grey()) + (p2 + scale_color_grey())
 }
 
 
-
 ## ---- eval=FALSE--------------------------------------------------------------
 ## model_2_interaction <- lm(average_sat_math ~ perc_disadvan * size,
-##                           data = MA_schools)
+##   data = MA_schools
+## )
 ## get_regression_table(model_2_interaction)
 
 ## ----model2-interaction, echo=FALSE-------------------------------------------
-model_2_interaction <- lm(average_sat_math ~ perc_disadvan * size, 
-                          data = MA_schools)
-get_regression_table(model_2_interaction) %>% 
+model_2_interaction <- lm(average_sat_math ~ perc_disadvan * size,
+  data = MA_schools
+)
+get_regression_table(model_2_interaction) %>%
   knitr::kable(
     digits = 3,
-    caption = "Interaction model regression table", 
+    caption = "Interaction model regression table",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 ## ---- eval=FALSE--------------------------------------------------------------
 ## model_2_parallel_slopes <- lm(average_sat_math ~ perc_disadvan + size,
-##                               data = MA_schools)
+##   data = MA_schools
+## )
 ## get_regression_table(model_2_parallel_slopes)
 
 ## ----model2-parallel-slopes, echo=FALSE---------------------------------------
-model_2_parallel_slopes <- lm(average_sat_math ~ perc_disadvan + size, 
-                              data = MA_schools)
-get_regression_table(model_2_parallel_slopes) %>% 
+model_2_parallel_slopes <- lm(average_sat_math ~ perc_disadvan + size,
+  data = MA_schools
+)
+get_regression_table(model_2_parallel_slopes) %>%
   knitr::kable(
     digits = 3,
-    caption = "Parallel slopes regression table", 
+    caption = "Parallel slopes regression table",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## -----------------------------------------------------------------------------
-get_regression_points(model_2_interaction) 
+get_regression_points(model_2_interaction)
 
 
 ## -----------------------------------------------------------------------------
-get_regression_points(model_2_interaction) %>% 
+get_regression_points(model_2_interaction) %>%
   summarize(var_y = var(average_sat_math), var_y_hat = var(average_sat_math_hat), var_residual = var(residual))
 
 
 ## ----model2-r-squared, echo=FALSE---------------------------------------------
-variances_interaction <- get_regression_points(model_2_interaction) %>% 
-  summarize(var_y = var(average_sat_math), var_y_hat = var(average_sat_math_hat), var_residual = var(residual)) %>% 
-  mutate(model = "Interaction", r_squared = var_y_hat/var_y)
-variances_parallel_slopes <- get_regression_points(model_2_parallel_slopes) %>% 
-  summarize(var_y = var(average_sat_math), var_y_hat = var(average_sat_math_hat), var_residual = var(residual)) %>% 
-  mutate(model = "Parallel slopes", r_squared = var_y_hat/var_y)
+variances_interaction <- get_regression_points(model_2_interaction) %>%
+  summarize(var_y = var(average_sat_math), var_y_hat = var(average_sat_math_hat), var_residual = var(residual)) %>%
+  mutate(model = "Interaction", r_squared = var_y_hat / var_y)
+variances_parallel_slopes <- get_regression_points(model_2_parallel_slopes) %>%
+  summarize(var_y = var(average_sat_math), var_y_hat = var(average_sat_math_hat), var_residual = var(residual)) %>%
+  mutate(model = "Parallel slopes", r_squared = var_y_hat / var_y)
 
 bind_rows(
   variances_interaction,
   variances_parallel_slopes
-) %>% 
-  select(model, var_y, var_y_hat, var_residual, r_squared) %>% 
+) %>%
+  select(model, var_y, var_y_hat, var_residual, r_squared) %>%
   knitr::kable(
     digits = 3,
-    caption = "Comparing variances from interaction and parallel slopes models for MA school data", 
+    caption = "Comparing variances from interaction and parallel slopes models for MA school data",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----model1-r-squared, echo=FALSE---------------------------------------------
-variances_interaction <- get_regression_points(score_model_interaction) %>% 
-  summarize(var_y = var(score), var_y_hat = var(score_hat), var_residual = var(residual)) %>% 
-  mutate(model = "Interaction", r_squared = var_y_hat/var_y)
-variances_parallel_slopes <- get_regression_points(score_model_parallel_slopes) %>% 
-  summarize(var_y = var(score), var_y_hat = var(score_hat), var_residual = var(residual)) %>% 
-  mutate(model = "Parallel slopes", r_squared = var_y_hat/var_y)
+variances_interaction <- get_regression_points(score_model_interaction) %>%
+  summarize(var_y = var(score), var_y_hat = var(score_hat), var_residual = var(residual)) %>%
+  mutate(model = "Interaction", r_squared = var_y_hat / var_y)
+variances_parallel_slopes <- get_regression_points(score_model_parallel_slopes) %>%
+  summarize(var_y = var(score), var_y_hat = var(score_hat), var_residual = var(residual)) %>%
+  mutate(model = "Parallel slopes", r_squared = var_y_hat / var_y)
 
 bind_rows(
   variances_interaction,
   variances_parallel_slopes
-) %>% 
-  select(model, var_y, var_y_hat, var_residual, r_squared) %>% 
+) %>%
+  select(model, var_y, var_y_hat, var_residual, r_squared) %>%
   knitr::kable(
     digits = 3,
-    caption = "Comparing variances from interaction and parallel slopes models for UT Austin data", 
+    caption = "Comparing variances from interaction and parallel slopes models for UT Austin data",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## -----------------------------------------------------------------------------
@@ -603,23 +669,26 @@ get_regression_summaries(model_2_parallel_slopes)
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
-## credit_ch6 %>% select(debt, income) %>%
+## credit_ch6 %>%
+##   select(debt, income) %>%
 ##   mutate(income = income * 1000) %>%
 ##   cor()
 
 ## ----cor-credit-2, echo=FALSE-------------------------------------------------
-credit_ch6 %>% 
-  select(debt, income) %>% 
-  mutate(income = income * 1000) %>% 
-  cor() %>% 
+credit_ch6 %>%
+  select(debt, income) %>%
+  mutate(income = income * 1000) %>%
+  cor() %>%
   knitr::kable(
     digits = 3,
-    caption = "Correlation between income (in dollars) and credit card debt", 
+    caption = "Correlation between income (in dollars) and credit card debt",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----2numxplot1-repeat, echo=FALSE, fig.cap="Relationship between credit card debt and income.", fig.height=1.8----
@@ -630,15 +699,17 @@ model3_balance_vs_income_plot
 debt_model <- lm(debt ~ credit_limit + income, data = credit_ch6)
 credit_line <- get_regression_table(debt_model) %>%
   pull(estimate)
-get_regression_table(debt_model) %>% 
+get_regression_table(debt_model) %>%
   knitr::kable(
     digits = 3,
-    caption = "Multiple regression results", 
+    caption = "Multiple regression results",
     booktabs = TRUE,
     linesep = ""
-  ) %>% 
-  kable_styling(font_size = ifelse(knitr:::is_latex_output(), 10, 16),
-                latex_options = c("hold_position"))
+  ) %>%
+  kable_styling(
+    font_size = ifelse(knitr:::is_latex_output(), 10, 16),
+    latex_options = c("hold_position")
+  )
 
 
 ## ----credit-limit-quartiles, echo=FALSE, fig.height=2.5, fig.cap="Histogram of credit limits and brackets.", message=FALSE----
@@ -649,33 +720,41 @@ ggplot(credit_ch6, aes(x = credit_limit)) +
 
 
 ## ----2numxplot4, echo=FALSE, fig.cap="Relationship between credit card debt and income by credit limit bracket.", fig.height=3----
-credit_ch6 <- credit_ch6 %>% 
-  mutate(limit_bracket = cut_number(credit_limit, 4)) %>% 
+credit_ch6 <- credit_ch6 %>%
+  mutate(limit_bracket = cut_number(credit_limit, 4)) %>%
   mutate(limit_bracket = fct_recode(limit_bracket,
     "low" =  "[855,3.09e+03]",
-    "med-low" = "(3.09e+03,4.62e+03]", 
-    "med-high" = "(4.62e+03,5.87e+03]", 
+    "med-low" = "(3.09e+03,4.62e+03]",
+    "med-high" = "(4.62e+03,5.87e+03]",
     "high" = "(5.87e+03,1.39e+04]"
   ))
 
 model3_balance_vs_income_plot <- ggplot(credit_ch6, aes(x = income, y = debt)) +
   geom_point() +
-  labs(x = "Income (in $1000)", y = "Credit card debt (in $)", 
-       title = "Two scatterplots of credit card debt vs income") +
+  labs(
+    x = "Income (in $1000)", y = "Credit card debt (in $)",
+    title = "Two scatterplots of credit card debt vs income"
+  ) +
   geom_smooth(method = "lm", se = FALSE) +
   scale_y_continuous(limits = c(0, NA))
 
-model3_balance_vs_income_plot_colored <- ggplot(credit_ch6, 
-                                                aes(x = income, y = debt, 
-                                                    col = limit_bracket)) +
+model3_balance_vs_income_plot_colored <- ggplot(
+  credit_ch6,
+  aes(
+    x = income, y = debt,
+    col = limit_bracket
+  )
+) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Income (in $1000)", y = "Credit card debt (in $)", 
-       color = "Credit limit\nbracket") + 
+  labs(
+    x = "Income (in $1000)", y = "Credit card debt (in $)",
+    color = "Credit limit\nbracket"
+  ) +
   scale_y_continuous(limits = c(0, NA)) +
   theme(axis.title.y = element_blank())
 
-if(knitr::is_html_output()){
+if (knitr::is_html_output()) {
   model3_balance_vs_income_plot + model3_balance_vs_income_plot_colored
 } else {
   (model3_balance_vs_income_plot + scale_color_grey()) +
@@ -684,7 +763,7 @@ if(knitr::is_html_output()){
 
 
 ## ----echo=FALSE, results="asis"-----------------------------------------------
-if(knitr::is_latex_output()){
+if (knitr::is_latex_output()) {
   cat("Solutions to all *Learning checks* can be found online in [Appendix D](https://moderndive.com/D-appendixD.html).")
-} 
+}
 

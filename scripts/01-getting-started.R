@@ -115,7 +115,7 @@ glimpse(airports)
 
 
 ## ----echo=FALSE, results="asis"-----------------------------------------------
-if(knitr::is_latex_output()){
+if (knitr::is_latex_output()) {
   cat("Solutions to all *Learning checks* can be found online in [Appendix D](https://moderndive.com/D-appendixD.html).")
-} 
+}
 

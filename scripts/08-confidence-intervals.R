@@ -393,9 +393,6 @@ percentile_ci
 
 
 ## -----------------------------------------------------------------------------
-x_bar <- pennies_sample %>% 
-  summarize(mean_year = mean(year))
-x_bar
 standard_error_ci <- bootstrap_distribution %>% 
   get_confidence_interval(type = "se", point_estimate = x_bar)
 standard_error_ci
